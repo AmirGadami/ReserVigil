@@ -1,1 +1,5 @@
 venv
+MLOps_Project.egg-info/
+.DS_Store
+jovial-talon-459814-r5-0cc3640821bb.json
+__pycache__
