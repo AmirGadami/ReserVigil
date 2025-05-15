@@ -1,9 +1,0 @@
-setup.py
-MLOps_Project.egg-info/PKG-INFO
-MLOps_Project.egg-info/SOURCES.txt
-MLOps_Project.egg-info/dependency_links.txt
-MLOps_Project.egg-info/requires.txt
-MLOps_Project.egg-info/top_level.txt
-config/__init__.py
-src/__init__.py
-utils/__init__.py
