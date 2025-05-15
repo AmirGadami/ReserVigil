@@ -31,7 +31,7 @@ class DataIngestion:
             blob.download_to_filename(RAW_FILE_PATH)
 
             logger.info(f"CSV file is successfully downloaded to {RAW_FILE_PATH}")
-            sss
+            
         except Exception as e:
             logger.error("Error while downloading the csv file")
             raise CustomException("Failed to download CSV file",e)
