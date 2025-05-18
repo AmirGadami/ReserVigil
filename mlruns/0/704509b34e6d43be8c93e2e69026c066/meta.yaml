@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/amir/Desktop/GitHub/MLOps/mlruns/0/704509b34e6d43be8c93e2e69026c066/artifacts
+end_time: 1747606702008
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 704509b34e6d43be8c93e2e69026c066
+run_name: luxuriant-foal-17
+run_uuid: 704509b34e6d43be8c93e2e69026c066
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747606666097
+status: 3
+tags: []
+user_id: amir
