@@ -1,6 +1,6 @@
 # ReserVigil (MLOPS): Hotel Reservation Outcome Predictor
 
-ReserVigil is a machine learning-powered system that predicts whether a hotel reservation will be honored or canceled. The project follows a complete MLOps pipeline — from data ingestion and preprocessing to model training, tracking, versioning, and deployment using tools like Jenkins.
+ReserVigil is a machine learning-powered system that predicts whether a hotel reservation will be honored or canceled. The main purpose of this project is to **showcase MLOps best practices** through a complete end-to-end deployment pipeline, including experiment tracking, version control, CI/CD with Jenkins, and a user-facing Streamlit app.
 
 ## Project Objective
 
@@ -15,7 +15,7 @@ To build a binary classification model that helps hotel operators forecast reser
 ├── src/                    # Source code (data ingestion, processing, training, etc.)
 ├── models/                 # Trained model artifacts
 ├── config/                 # YAML configuration files
-├── app/                    # FastAPI or Streamlit app for deployment (optional)
+├── app/                    # Streamlit app for interactive predictions
 ├── Dockerfile              # Container setup for Jenkins CI/CD
 └── README.md               # Project documentation
 ```
@@ -28,7 +28,7 @@ To build a binary classification model that helps hotel operators forecast reser
 - Data and model versioning (DVC or Git)
 - Experiment tracking (MLflow or Weights & Biases)
 - CI/CD pipeline with Jenkins
-- Optional deployment with FastAPI or Streamlit
+- Interactive user interface built with Streamlit
 
 ## Machine Learning Pipeline
 
@@ -38,7 +38,7 @@ To build a binary classification model that helps hotel operators forecast reser
 4. Experiment Tracking  
 5. Model Registry and Versioning  
 6. CI/CD for Deployment using Jenkins  
-7. User-facing App (optional)
+7. Streamlit App for Real-Time Predictions
 
 ## Dataset
 
@@ -57,11 +57,11 @@ Public dataset containing hotel reservation records. Each row represents a booki
 - MLflow / Weights & Biases
 - DVC / Git
 - Jenkins, Docker
-- FastAPI / Streamlit (optional)
+- Streamlit
 
 ## Results
 
-The trained model achieves high accuracy in predicting cancellations, enabling real-time alerts or dashboard integrations for hotel operators.
+The trained model achieves high accuracy in predicting cancellations, enabling real-time alerts or dashboard integrations for hotel operators. The Streamlit app allows users to interactively test booking scenarios and view predictions instantly.
 
 ## Future Improvements
 
