@@ -42,11 +42,11 @@ class DataIngestion:
             data = pd.read_csv(RAW_FILE_PATH)
             train_data, test_data = train_test_split(data, test_size=1-self.train_test_ratio ,
                              random_state=42)
-            train_data.to_csv(TRAIN_PATH_CSV)
-            test_data.to_csv(TEST_PATH_CSV)
+            train_data.to_csv(TRAIN_PATH)
+            test_data.to_csv(TEST_PATH)
         
-            logger.info(f'Train data saved to {TRAIN_PATH_CSV}')
-            logger.info(f'Test data saved to {TEST_PATH_CSV}')
+            logger.info(f'Train data saved to {TRAIN_PATH}')
+            logger.info(f'Test data saved to {TEST_PATH}')
             
         except Exception as e:
             logger.error("Error while splitting data")
@@ -71,3 +71,5 @@ class DataIngestion:
 if __name__ == "__main__":
     data_ingestion = DataIngestion(read_yaml(CONFIG_PATH))
     data_ingestion.run()
+
+
