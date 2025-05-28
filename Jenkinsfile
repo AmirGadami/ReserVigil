@@ -18,7 +18,7 @@ pipeline {
                     extensions: [],
                     userRemoteConfigs: [[
                         credentialsId: 'GitHub-token',
-                        url: 'https://github.com/AmirGadami/MLOps.git'
+                        url: 'https://github.com/AmirGadami/ReserVigil.git'
                     ]]
                 )
             }
