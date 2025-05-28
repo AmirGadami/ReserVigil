@@ -9,15 +9,55 @@ To build a binary classification model that helps hotel operators forecast reser
 ## Project Structure
 
 ```
-.
-├── data/                   # Raw and processed datasets
-├── notebooks/              # Jupyter notebooks for EDA & experiments
-├── src/                    # Source code (data ingestion, processing, training, etc.)
-├── models/                 # Trained model artifacts
-├── config/                 # YAML configuration files
-├── app/                    # Streamlit app for interactive predictions
-├── Dockerfile              # Container setup for Jenkins CI/CD
-└── README.md               # Project documentation
+📁 MLOps Project
+├── Dockerfile
+├── Jenkinsfile
+├── README.md
+├── application.py
+├── requirements.txt
+├── setup.py
+├── project_tree.txt
+
+📁 artifact
+│   ├── models/
+│   │   └── lgbm_model_pkl
+│   ├── processed/
+│   │   ├── processed_train.csv
+│   │   └── processed_test.csv
+│   └── raw/
+│       ├── raw.csv
+│       ├── train.csv
+│       └── test.csv
+
+📁 config
+│   ├── config.yaml
+│   ├── model_params.py
+│   ├── path_config.py
+│   └── __init__.py
+
+📁 custom_jenkins
+│   └── Dockerfile
+
+📁 notebook
+│   └── notebook.ipynb
+
+📁 pipeline
+│   ├── training_pipeline.py
+│   └── __init__.py
+
+📁 src
+│   ├── custom_exception.py
+│   ├── data_ingestion.py
+│   ├── data_preprocessing.py
+│   ├── logger.py
+│   ├── model_training.py
+│   └── __init__.py
+
+📁 utils
+│   ├── common_functions.py
+│   └── __init__.py
+
+📁 logs/
 ```
 
 ## Features
