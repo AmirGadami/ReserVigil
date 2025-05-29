@@ -1,28 +1,21 @@
 pipeline {
+
     agent any
+
     environment {
         VENV_DIR = 'venv'
         GCP_PROJECT = "hip-watch-461221-r5"
         GCLOUD_PATH = "/var/jenkins_home/google-cloud-sdk/bin"
     }
+
     stages {
-        stage('Install gcloud CLI') {
+
+        stage('Clone GitHub Repo to Jenkins') {
             steps {
-                sh """
-                    # Install gcloud if missing
-                    if [ ! -d "${GCLOUD_PATH}" ]; then
-                        curl -sSL https://sdk.cloud.google.com | bash
-                        export PATH=\$PATH:${GCLOUD_PATH}
-                        gcloud components install --quiet gke-gcloud-auth-plugin
-                    fi
-                """
-            }
-        }
-        
-        stage('Clone GitHub Repo') {
-            steps {
+                echo 'Cloning GitHub repo to Jenkins...'
                 checkout scmGit(
                     branches: [[name: '*/main']],
+                    extensions: [],
                     userRemoteConfigs: [[
                         credentialsId: 'GitHub-token',
                         url: 'https://github.com/AmirGadami/ReserVigil.git'
@@ -31,45 +24,51 @@ pipeline {
             }
         }
 
-        stage('Set Up Python') {
+        stage('Set Up Virtual Environment and Install Dependencies') {
             steps {
+                echo 'Setting up virtual environment and installing dependencies...'
                 sh """
                     python3 -m venv ${VENV_DIR}
                     . ${VENV_DIR}/bin/activate
-                    pip install --upgrade pip wheel
+                    pip install --upgrade pip
                     pip install -e .
                 """
             }
         }
 
-        stage('Build and Push Docker Image') {
+        stage('Build and Push Docker Image to GCR') {
             steps {
                 withCredentials([file(credentialsId: 'gcp-key', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+                    echo "Building and pushing Docker image to GCR..."
                     sh """
                         export PATH=\$PATH:${GCLOUD_PATH}
+
                         gcloud auth activate-service-account --key-file=\${GOOGLE_APPLICATION_CREDENTIALS}
                         gcloud config set project ${GCP_PROJECT}
                         gcloud auth configure-docker --quiet
-                        
-                        # Force AMD64 build for Cloud Run
-                        docker build --platform linux/amd64 -t gcr.io/${GCP_PROJECT}/ml-project:latest .
+
+                        docker build -t gcr.io/${GCP_PROJECT}/ml-project:latest .
                         docker push gcr.io/${GCP_PROJECT}/ml-project:latest
                     """
                 }
             }
         }
 
-        stage('Deploy to Cloud Run') {
+        stage('Deploy to Google Cloud Run') {
             steps {
                 withCredentials([file(credentialsId: 'gcp-key', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+                    echo 'Deploying to Google Cloud Run...'
                     sh """
                         export PATH=\$PATH:${GCLOUD_PATH}
+
+                        gcloud auth activate-service-account --key-file=\${GOOGLE_APPLICATION_CREDENTIALS}
+                        gcloud config set project ${GCP_PROJECT}
+
                         gcloud run deploy ml-project \\
                             --image=gcr.io/${GCP_PROJECT}/ml-project:latest \\
                             --platform=managed \\
                             --region=us-central1 \\
-                            --allow-unauthenticated \\
-                            --quiet
+                            --allow-unauthenticated
                     """
                 }
             }
