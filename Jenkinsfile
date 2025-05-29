@@ -4,7 +4,7 @@ pipeline {
 
     environment {
         VENV_DIR = 'venv'
-        GCP_PROJECT = "jovial-talon-459814-r5"
+        GCP_PROJECT = "hip-watch-461221-r5"
         GCLOUD_PATH = "/var/jenkins_home/google-cloud-sdk/bin"
     }
 

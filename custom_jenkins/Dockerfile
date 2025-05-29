@@ -1,25 +1,34 @@
-# Use the Jenkins image as the base image
 FROM jenkins/jenkins:lts
 
-# Switch to root user
 USER root
 
-# Install prerequisites and Docker
-RUN apt-get update -y && \
-    apt-get install -y apt-transport-https ca-certificates curl gnupg software-properties-common && \
-    curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/docker.gpg && \
-    echo "deb [arch=arm64] https://download.docker.com/linux/debian bullseye stable" > /etc/apt/sources.list.d/docker.list && \
-    apt-get update -y && \
-    apt-get install -y docker.io && \
-    apt-get clean
+# Install prerequisites for Docker
+RUN apt-get update && \
+    apt-get install -y \
+        ca-certificates \
+        curl \
+        gnupg \
+        lsb-release
+
+# Add Docker’s official GPG key
+RUN mkdir -p /etc/apt/keyrings && \
+    curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+# Set up the Docker stable repository
+RUN echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+    $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Install Docker Engine
+RUN apt-get update && \
+    apt-get install -y \
+        docker-ce \
+        docker-ce-cli \
+        containerd.io \
+        docker-compose-plugin
 
 # Add Jenkins user to the Docker group
-RUN groupadd -f docker && \
-    usermod -aG docker jenkins
-
-# Create the Docker directory and volume
-RUN mkdir -p /var/lib/docker
-VOLUME /var/lib/docker
+RUN usermod -aG docker jenkins
 
 # Switch back to Jenkins user
 USER jenkins
