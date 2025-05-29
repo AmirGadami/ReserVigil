@@ -1,5 +1,4 @@
 pipeline {
-
     agent any
 
     environment {
@@ -47,8 +46,13 @@ pipeline {
                         gcloud config set project ${GCP_PROJECT}
                         gcloud auth configure-docker --quiet
 
-                        docker build -t gcr.io/${GCP_PROJECT}/ml-project:latest .
-                        docker push gcr.io/${GCP_PROJECT}/ml-project:latest
+                        docker buildx create --use || true
+
+                        docker buildx build \\
+                            --platform=linux/amd64 \\
+                            --tag=gcr.io/${GCP_PROJECT}/ml-project:latest \\
+                            . \\
+                            --push
                     """
                 }
             }
